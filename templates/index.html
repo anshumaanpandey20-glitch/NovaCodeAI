@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block title %}
+NovaCode AI
+{% endblock %}
+
+{% block content %}
+
+<section class="hero">
+
+    <div class="hero-left">
+
+        <h1>
+            Generate Production-Ready Code with AI
+        </h1>
+
+        <p>
+            NovaCode AI helps developers generate clean, optimized,
+            secure and production-ready code in seconds using
+            Artificial Intelligence.
+        </p>
+
+        <div class="hero-buttons">
+
+            <a href="/register" class="btn-primary">
+                Start Generating
+            </a>
+
+            <a href="#features" class="btn-secondary">
+                View Features
+            </a>
+
+        </div>
+
+    </div>
+
+    <div class="hero-right">
+
+        <div class="code-box">
+
+<pre><code>
+def login(email, password):
+
+    if authenticate(email, password):
+        return "Login Successful"
+
+    return "Invalid Credentials"
+
+
+print(login(user, password))
+</code></pre>
+
+        </div>
+
+    </div>
+
+</section>
+
+<section id="features" class="features">
+
+    <h2>Why Choose NovaCode AI?</h2>
+
+    <div class="feature-container">
+
+        <div class="feature-card">
+            <h3>⚡ Fast Generation</h3>
+            <p>Generate complete projects within seconds.</p>
+        </div>
+
+        <div class="feature-card">
+            <h3>🤖 AI Powered</h3>
+            <p>Powered by Google's Gemini AI.</p>
+        </div>
+
+        <div class="feature-card">
+            <h3>💻 Multi Language</h3>
+            <p>Python, Java, C++, JavaScript, HTML, CSS and more.</p>
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

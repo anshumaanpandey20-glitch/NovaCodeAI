@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+
+{% block title %}AI Code Generator{% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/generator.css') }}">
+
+<div class="generator-container">
+
+    <div class="generator-header app-hero">
+        <div>
+            <span class="eyebrow">Workspace</span>
+            <h1>AI Code Generator</h1>
+            <p>Describe the feature, choose your stack, and get clean starter code you can build on.</p>
+        </div>
+        <a class="history-link" href="{{ url_for('history.index') }}">View History</a>
+    </div>
+
+    <div class="generator-layout">
+        <section class="generator-card">
+            <div class="panel-heading">
+                <div>
+                    <h2>Build Prompt</h2>
+                    <p>Be specific about screens, data, behavior, and style.</p>
+                </div>
+            </div>
+
+            <form method="POST" action="{{ url_for('generator.generate') }}">
+                <label for="prompt">Project description</label>
+                <textarea
+                    id="prompt"
+                    name="prompt"
+                    placeholder="Example: Create a Flask task tracker with login, dashboard cards, task filters, and a SQLite database."
+                    required
+                ></textarea>
+
+                <div class="form-grid">
+                    <div class="field">
+                        <label for="language">Language</label>
+                        <select name="language" required>
+                            <option value="Python">Python</option>
+                            <option value="JavaScript">JavaScript</option>
+                            <option value="Java">Java</option>
+                            <option value="C++">C++</option>
+                        </select>
+                    </div>
+
+                    <div class="field">
+                        <label for="framework">Framework</label>
+                        <select name="framework" required>
+                            <option value="Flask">Flask</option>
+                            <option value="Django">Django</option>
+                            <option value="React">React</option>
+                            <option value="None">None</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button class="generate-btn" type="submit" id="generateBtn">
+                    Generate Code
+                </button>
+            </form>
+
+            <div id="loader" class="loader">
+                <div class="spinner"></div>
+                <p>NovaCode AI is generating your code...</p>
+            </div>
+        </section>
+
+        <aside class="generator-tips">
+            <h2>Prompt Checklist</h2>
+            <ul>
+                <li>Name the exact feature or app.</li>
+                <li>Include pages, routes, models, and actions.</li>
+                <li>Mention styling or UX expectations.</li>
+                <li>Ask for comments, tests, or setup steps if needed.</li>
+            </ul>
+        </aside>
+    </div>
+
+    <section class="output-card">
+        <div class="output-header">
+            <div>
+                <span class="eyebrow">Result</span>
+                <h2>Generated Code</h2>
+            </div>
+
+            <div class="output-actions">
+                <button id="copyBtn" type="button">Copy Code</button>
+                <button id="downloadBtn" type="button">Download</button>
+            </div>
+        </div>
+
+        {% if generated_code %}
+            <pre><code id="generatedCode" class="language-{{ language }}">{{ generated_code }}</code></pre>
+        {% else %}
+            <div class="empty-output">
+                <h3>Your generated code will appear here.</h3>
+                <p>Use the generator above to create a first draft, then copy or download the result.</p>
+                <pre><code id="generatedCode" class="language-{{ language }}"></code></pre>
+            </div>
+        {% endif %}
+        <input type="hidden" id="selectedLanguage" value="{{ language }}">
+    </section>
+
+</div>
+
+<script src="{{ url_for('static', filename='js/generator.js') }}"></script>
+
+{% endblock %}

@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block title %}History{% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/history.css') }}">
+
+<div class="history-container">
+
+    <div class="history-header">
+        <div>
+            <span class="eyebrow">Saved Work</span>
+            <h1>Generation History</h1>
+            <p>Search, review, copy, and manage every piece of code NovaCode AI has generated for you.</p>
+        </div>
+        <a class="new-generation" href="{{ url_for('generator.generate') }}">New Generation</a>
+    </div>
+
+    <form method="GET" class="history-search">
+        <label for="historySearch">Search history</label>
+        <div class="search-row">
+            <input
+                id="historySearch"
+                type="text"
+                name="search"
+                value="{{ search }}"
+                placeholder="Search by prompt, language, or framework">
+            <button type="submit">Search</button>
+            {% if search %}
+                <a href="{{ url_for('history.index') }}">Clear</a>
+            {% endif %}
+        </div>
+    </form>
+
+    {% if history %}
+        <div class="history-list">
+            {% for item in history %}
+            <article class="history-card">
+                <div class="history-card-header">
+                    <div>
+                        <div class="history-meta">
+                            <span>{{ item.language or "Code" }}</span>
+                            {% if item.framework %}
+                                <span>{{ item.framework }}</span>
+                            {% endif %}
+                        </div>
+                        <h2>{{ item.prompt }}</h2>
+                    </div>
+                    <time class="history-date" datetime="{{ item.created_at }}">
+                        {{ item.created_at.strftime("%d %b %Y, %I:%M %p") }}
+                    </time>
+                </div>
+
+                <div class="code-preview" id="code-{{ item.id }}">
+                    <pre>{{ item.generated_code }}</pre>
+                </div>
+
+                <div class="history-actions">
+                    <button class="view-btn" data-id="{{ item.id }}" type="button">View</button>
+                    <button class="copy-btn" data-id="{{ item.id }}" type="button">Copy</button>
+                    <a href="{{ url_for('history.favorite', id=item.id) }}">Favorite</a>
+                    <a
+                        href="{{ url_for('history.delete', id=item.id) }}"
+                        class="delete-btn"
+                        onclick="return confirm('Delete this generation?')">Delete</a>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+    {% else %}
+        <section class="empty-history">
+            <h2>No generations found.</h2>
+            <p>Try a different search, or create a new generation to start building your history.</p>
+            <a href="{{ url_for('generator.generate') }}">Open Generator</a>
+        </section>
+    {% endif %}
+
+</div>
+
+<script src="{{ url_for('static', filename='js/history.js') }}"></script>
+
+{% endblock %}

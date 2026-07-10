@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}AI Assistant{% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/assistant.css') }}">
+
+<div class="assistant-container">
+
+    <div class="assistant-header">
+        <div>
+            <span class="eyebrow">AI Pair Programmer</span>
+            <h1>NovaCode AI Assistant</h1>
+            <p>Ask for debugging help, explanations, architecture advice, or code improvements.</p>
+        </div>
+        <a href="{{ url_for('generator.generate') }}">Open Generator</a>
+    </div>
+
+    <div class="assistant-grid">
+        <section class="chat-panel">
+            <div class="panel-heading">
+                <div>
+                    <h2>Ask a Question</h2>
+                    <p>Share the problem, error, or code idea you want help with.</p>
+                </div>
+            </div>
+
+            <form method="POST" class="assistant-form">
+                <label for="message">Message</label>
+                <textarea
+                    id="message"
+                    name="message"
+                    rows="8"
+                    placeholder="Example: Explain why my Flask route is returning a 500 error and suggest a fix."
+                    required></textarea>
+
+                <button type="submit">Send Message</button>
+            </form>
+        </section>
+
+        <aside class="assistant-prompts">
+            <h2>Good things to ask</h2>
+            <ul>
+                <li>Explain an error message in simple terms.</li>
+                <li>Refactor a function for readability.</li>
+                <li>Plan database tables for a feature.</li>
+                <li>Review a UI flow before coding it.</li>
+            </ul>
+        </aside>
+    </div>
+
+    {% if reply %}
+    <section class="reply">
+        <div class="reply-header">
+            <span class="eyebrow">Assistant Reply</span>
+            <h2>Response</h2>
+        </div>
+
+        <pre>{{ reply }}</pre>
+    </section>
+    {% endif %}
+
+</div>
+
+{% endblock %}
